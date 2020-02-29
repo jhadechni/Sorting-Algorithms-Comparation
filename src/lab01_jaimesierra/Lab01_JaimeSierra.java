@@ -5,7 +5,6 @@
  */
 package lab01_jaimesierra;
 
-import Clases.BubbleSort;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -16,13 +15,10 @@ import java.util.Scanner;
 
 /**
  *
- * @author Jaime Sierra. 
- * User: jhadechine.
- * @date Febrero - 2020. 
- * Objetivo: Comparar los ordenamientos MergeSort y BubbleSort para grandes conjuntos de datos. 
- * Código: 200128153. 
- * Nombre: Jaime Luis Sierra Hadechine. 
- * Nombre del programa: SierraHadechineJaimeLuis.
+ * @author Jaime Sierra. User: jhadechine.
+ * @date Febrero - 2020. Objetivo: Comparar los ordenamientos MergeSort y
+ * BubbleSort para grandes conjuntos de datos. Código: 200128153. Nombre: Jaime
+ * Luis Sierra Hadechine. Nombre del programa: SierraHadechineJaimeLuis.
  */
 public class Lab01_JaimeSierra {
 
@@ -35,41 +31,44 @@ public class Lab01_JaimeSierra {
     public static void main(String[] args) throws InterruptedException, IOException {
         // TODO code application logic here
         int numberKeys;
-        BubbleSort bu= new BubbleSort();
+        BubbleSort bu = new BubbleSort();
         
+
         Scanner sc = new Scanner(System.in);
         System.out.println("Digite el número de claves");
         numberKeys = sc.nextInt();
+        
 
         BigInteger vec2[] = new BigInteger[numberKeys];
         BigInteger vec3[] = new BigInteger[vec2.length];
 
-        File bubbleSort = new File("src/Archivos/Bubble_Sort");
-        File original = new File("src/Archivos/Original");
-        File mergeSort = new File("src/Archivos/Merge_Sort");
-        bubbleSort.delete();
-        original.delete();
-        mergeSort.delete();
-       
+//        File recursiveBubble = new File("src/Archivos/Bubble_Sort");
+//        File original = new File("src/Archivos/Original");
+//        File mergeSort = new File("src/Archivos/Merge_Sort");
+//        recursiveBubble.delete();
+//        original.delete();
+//        mergeSort.delete();
 
         for (int i = 0; i < vec2.length; i++) {
             vec2[i] = vec3[i] = randomBig(10000);
 
         }
 
-        guardarArchivo(original, vec2, "VECTOR ORIGINAL");
+//        guardarArchivo(original, vec2, "VECTOR ORIGINAL");
+//
+//        sort(vec2, 0, vec2.length - 1);
+//        guardarArchivo(mergeSort, vec2, "MERGE SORT");
 
-        sort(vec2, 0, vec2.length - 1);
-        guardarArchivo(mergeSort, vec2, "MERGE SORT");
+//        recursiveBubbleSort(vec3, vec3.length);
+          bu.recursiveBubble(vec3);
 
-        recursiveBubbleSort(vec3, vec3.length);
-        
-        guardarArchivo(bubbleSort, vec3, "BUBBLE SORT");
+//        guardarArchivo(recursiveBubble, vec3, "BUBBLE SORT");
 
         System.out.println("\n");
 
         System.out.println("Tiempo de corrida de Merge Sort: " + runningTime1 + " milliseconds");
         System.out.println("Tiempo de corrida de Bubble Sort: " + runningTime2 + " milliseconds");
+        System.out.println("Número de instrucciones del BubbleSort "+bu.getContadorInstrucciones());
 
     }
 
@@ -170,7 +169,7 @@ public class Lab01_JaimeSierra {
      * @param vec Vector a ordenar.
      * @return Regresa un vector ordenado medianta el ordenamiento de BubbleSort
      */
-   public static BigInteger[] bubbleSort(BigInteger[] vec) {
+    public static BigInteger[] bubbleSort(BigInteger[] vec) {
 
         for (int i = 0; i < vec.length - 1; i++) {
             for (int j = 0; j < vec.length - i - 1; j++) {
@@ -184,11 +183,12 @@ public class Lab01_JaimeSierra {
 
         return vec;
     }
-/**
- * 
- * @param arr Vector a ordenar.
- * @param n Tamaño del vector.
- */
+
+    /**
+     *
+     * @param arr Vector a ordenar.
+     * @param n Tamaño del vector.
+     */
     public static void recursiveBubbleSort(BigInteger arr[], int n) {
         startTime2 = System.currentTimeMillis();
         if (n == 1) {
