@@ -7,6 +7,7 @@ package lab01_jaimesierra;
 
 import Clases.BubbleSort;
 import Clases.MergeSort;
+import Vistas.Principal;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -37,6 +38,16 @@ public class Lab01_JaimeSierra {
         MergeSort me = new MergeSort();
 
         Scanner sc = new Scanner(System.in);
+        
+        
+        Principal pl = new Principal();
+        pl.setVisible(true);
+        pl.setSize(1176,500);
+        pl.setLocationRelativeTo(null);
+        
+        
+        
+        
         System.out.println("Digite el número de claves");
         numberKeys = sc.nextInt();
 

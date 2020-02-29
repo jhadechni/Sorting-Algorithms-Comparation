@@ -5,6 +5,7 @@
  */
 package Clases;
 
+
 import java.math.BigInteger;
 
 /**
@@ -19,7 +20,9 @@ public class BubbleSort {
         BubbleSort.contadorInstrucciones = 0;
     }
 
+    
     public static void sort(BigInteger arr[], int i, int j) {
+        
         contadorInstrucciones += 3;
         BigInteger temp = arr[i];
         arr[i] = arr[j];
@@ -27,6 +30,7 @@ public class BubbleSort {
     }
 
     public void recursiveBubble(BigInteger arr[]) {
+      
         contadorInstrucciones += 2;
         for (int k = 0; k < arr.length - 1; k++) {
             for (int i = 0; i < arr.length - 1 - k; i++) {
@@ -37,6 +41,8 @@ public class BubbleSort {
             }
 
         }
+        
+       
     }
 
     public BigInteger[] noRecursiveSort(BigInteger[] vec) {
@@ -57,5 +63,9 @@ public class BubbleSort {
     public long getContadorInstrucciones() {
         return contadorInstrucciones;
     }
+
+    
+    
+    
 
 }
