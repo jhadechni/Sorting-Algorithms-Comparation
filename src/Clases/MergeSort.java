@@ -13,17 +13,25 @@ import java.math.BigInteger;
  */
 public class MergeSort {
 
-    public MergeSort(long contadorInstrucciones) {
+    static long contadorInstrucciones;
+
+    public MergeSort() {
+        this.contadorInstrucciones = 0;
     }
-    
-    
-    
-    
-    
-     public static void merge(BigInteger arr[], int l, int m, int r) {
+
+     /**
+     *
+     * @param arr Vector que será particionado
+     * @param l Inicial
+     * @param m Punto medio
+     * @param r Final
+     */
+    public  void merge(BigInteger arr[], int l, int m, int r) {
         // Find sizes of two subarrays to be merged 
+
         int n1 = m - l + 1;
         int n2 = r - m;
+        contadorInstrucciones += 6 + n1 + n2;
         /* Create temp arrays */
         BigInteger leftArray[] = new BigInteger[n1];
         BigInteger rightArray[] = new BigInteger[n2];
@@ -40,10 +48,13 @@ public class MergeSort {
         // Initial index of merged subarry array 
         int k = l;
         while (i < n1 && j < n2) {
+            contadorInstrucciones++;
             if (leftArray[i].compareTo(rightArray[j]) == -1) {
+                contadorInstrucciones+=2;
                 arr[k] = leftArray[i];
                 i++;
             } else {
+                contadorInstrucciones+=2;
                 arr[k] = rightArray[j];
                 j++;
             }
@@ -51,20 +62,45 @@ public class MergeSort {
         }
         /* Copy remaining elements of L[] if any */
         while (i < n1) {
+            contadorInstrucciones+=3;
             arr[k] = leftArray[i];
             i++;
             k++;
         }
         /* Copy remaining elements of R[] if any */
         while (j < n2) {
+            contadorInstrucciones+=3;
             arr[k] = rightArray[j];
             j++;
             k++;
         }
     }
+
+    /**
+     *
+     * @param arr Vector que será ordenado
+     * @param l Inicial
+     * @param r Final
+     */
+    public void sort(BigInteger arr[], int l, int r) {
+
+        if (l < r) {
+            contadorInstrucciones += 4;
+            // Find the middle point 
+            int m = (l + r) / 2;
+            // Sort first and second halves 
+            sort(arr, l, m);
+            sort(arr, m + 1, r);
+            // Merge the sorted halves 
+            merge(arr, l, m, r);
+        }
+
+    }
+
+    public long getContadorInstrucciones() {
+        return contadorInstrucciones;
+    }
     
     
-    
-    
-    
+
 }

@@ -5,6 +5,8 @@
  */
 package lab01_jaimesierra;
 
+import Clases.BubbleSort;
+import Clases.MergeSort;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -32,12 +34,11 @@ public class Lab01_JaimeSierra {
         // TODO code application logic here
         int numberKeys;
         BubbleSort bu = new BubbleSort();
-        
+        MergeSort me = new MergeSort();
 
         Scanner sc = new Scanner(System.in);
         System.out.println("Digite el número de claves");
         numberKeys = sc.nextInt();
-        
 
         BigInteger vec2[] = new BigInteger[numberKeys];
         BigInteger vec3[] = new BigInteger[vec2.length];
@@ -48,7 +49,6 @@ public class Lab01_JaimeSierra {
 //        recursiveBubble.delete();
 //        original.delete();
 //        mergeSort.delete();
-
         for (int i = 0; i < vec2.length; i++) {
             vec2[i] = vec3[i] = randomBig(10000);
 
@@ -58,93 +58,18 @@ public class Lab01_JaimeSierra {
 //
 //        sort(vec2, 0, vec2.length - 1);
 //        guardarArchivo(mergeSort, vec2, "MERGE SORT");
-
 //        recursiveBubbleSort(vec3, vec3.length);
-          bu.recursiveBubble(vec3);
+        bu.recursiveBubble(vec3);
+        me.sort(vec2, 0, vec2.length - 1);
 
 //        guardarArchivo(recursiveBubble, vec3, "BUBBLE SORT");
-
         System.out.println("\n");
 
         System.out.println("Tiempo de corrida de Merge Sort: " + runningTime1 + " milliseconds");
         System.out.println("Tiempo de corrida de Bubble Sort: " + runningTime2 + " milliseconds");
-        System.out.println("Número de instrucciones del BubbleSort "+bu.getContadorInstrucciones());
+        System.out.println("Número de instrucciones del BubbleSort " + bu.getContadorInstrucciones());
+        System.out.println("Número de instrucciones del MergeSort " + me.getContadorInstrucciones());
 
-    }
-
-    /**
-     *
-     * @param arr Vector que será ordenado
-     * @param l Inicial
-     * @param r Final
-     */
-    public static void sort(BigInteger arr[], int l, int r) {
-        startTime1 = System.currentTimeMillis();
-
-        if (l < r) {
-            // Find the middle point 
-            int m = (l + r) / 2;
-            // Sort first and second halves 
-            sort(arr, l, m);
-            sort(arr, m + 1, r);
-            // Merge the sorted halves 
-            merge(arr, l, m, r);
-        }
-
-        endTime1 = System.currentTimeMillis();
-
-        runningTime1 = (double) ((endTime1 - startTime1));
-
-    }
-
-    /**
-     *
-     * @param arr Vector que será particionado
-     * @param l Inicial
-     * @param m Punto medio
-     * @param r Final
-     */
-    public static void merge(BigInteger arr[], int l, int m, int r) {
-        // Find sizes of two subarrays to be merged 
-        int n1 = m - l + 1;
-        int n2 = r - m;
-        /* Create temp arrays */
-        BigInteger leftArray[] = new BigInteger[n1];
-        BigInteger rightArray[] = new BigInteger[n2];
-        /*Copy data to temp arrays*/
-        for (int i = 0; i < n1; ++i) {
-            leftArray[i] = arr[l + i];
-        }
-        for (int j = 0; j < n2; ++j) {
-            rightArray[j] = arr[m + 1 + j];
-        }
-        /* Merge the temp arrays */
-        // Initial indexes of first and second subarrays 
-        int i = 0, j = 0;
-        // Initial index of merged subarry array 
-        int k = l;
-        while (i < n1 && j < n2) {
-            if (leftArray[i].compareTo(rightArray[j]) == -1) {
-                arr[k] = leftArray[i];
-                i++;
-            } else {
-                arr[k] = rightArray[j];
-                j++;
-            }
-            k++;
-        }
-        /* Copy remaining elements of L[] if any */
-        while (i < n1) {
-            arr[k] = leftArray[i];
-            i++;
-            k++;
-        }
-        /* Copy remaining elements of R[] if any */
-        while (j < n2) {
-            arr[k] = rightArray[j];
-            j++;
-            k++;
-        }
     }
 
     /**
@@ -162,51 +87,6 @@ public class Lab01_JaimeSierra {
 
         return bi;
 
-    }
-
-    /**
-     *
-     * @param vec Vector a ordenar.
-     * @return Regresa un vector ordenado medianta el ordenamiento de BubbleSort
-     */
-    public static BigInteger[] bubbleSort(BigInteger[] vec) {
-
-        for (int i = 0; i < vec.length - 1; i++) {
-            for (int j = 0; j < vec.length - i - 1; j++) {
-                if (vec[j].compareTo(vec[j + 1]) == 1) {
-                    BigInteger temp = vec[j];
-                    vec[j] = vec[j + 1];
-                    vec[j + 1] = temp;
-                }
-            }
-        }
-
-        return vec;
-    }
-
-    /**
-     *
-     * @param arr Vector a ordenar.
-     * @param n Tamaño del vector.
-     */
-    public static void recursiveBubbleSort(BigInteger arr[], int n) {
-        startTime2 = System.currentTimeMillis();
-        if (n == 1) {
-            return;
-        }
-        for (int i = 0; i < n - 1; i++) {
-            if (arr[i].compareTo(arr[i + 1]) == 1) {
-                BigInteger temp = arr[i];
-                arr[i] = arr[i + 1];
-                arr[i + 1] = temp;
-            }
-        }
-
-        recursiveBubbleSort(arr, n - 1);
-
-        endTime2 = System.currentTimeMillis();
-
-        runningTime2 = (double) ((endTime2 - startTime2));
     }
 
     /**
