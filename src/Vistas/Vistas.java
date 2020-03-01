@@ -22,12 +22,12 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Jaime Sierra
  */
-public class Principal extends javax.swing.JFrame {
+public class Vistas extends javax.swing.JFrame {
 
     /**
      * Creates new form Principal
      */
-    public Principal() {
+    public Vistas() {
         initComponents();
         tabla();
     }
@@ -59,24 +59,20 @@ public class Principal extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jTextField3 = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jLabel6 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jTextField3 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1000, 400));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setText("Digite el número de claves a generar:");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 220, 24));
+        jLabel1.setText("Digite el número máximo de claves a generar:");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 270, 24));
         getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, 180, -1));
 
         jLabel2.setText("Digite el tamaño de las claves:");
@@ -89,33 +85,13 @@ public class Principal extends javax.swing.JFrame {
         });
         getContentPane().add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 180, -1));
 
-        jButton1.setText("GENERAR");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 370, 90, 30));
-        getContentPane().add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 240, 70, 30));
-
-        jLabel3.setText("Valor inicial:");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, 80, 30));
-
-        jLabel4.setText("Valor final:");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, 60, 30));
-        getContentPane().add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 280, 70, 30));
-
-        jLabel5.setText("Incremento:");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 320, 60, 30));
-        getContentPane().add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 320, 70, 30));
-
         jButton2.setText("GENERAR");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 140, 90, 30));
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 190, 90, 30));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -138,10 +114,23 @@ public class Principal extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 60, 920, 370));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 1150, 360));
 
-        jLabel6.setText("Generar a un rango específico:");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 180, -1));
+        jButton3.setText("GENERAR ARCHIVO EXCEL");
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 190, 210, 30));
+
+        jButton4.setText("MOSTRAR ARCHIVOS");
+        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 190, 190, 30));
+
+        jLabel3.setText("Digite el incremento:");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, -1, 30));
+
+        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField3ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, 180, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -168,12 +157,21 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
-            int numberKeys = Integer.parseInt(jTextField1.getText());
+            int numberMaxKeys = Integer.parseInt(jTextField1.getText());
             int keysSize = Integer.parseInt(jTextField2.getText());
             BubbleSort bu = new BubbleSort();
             MergeSort me = new MergeSort();
+             //Modelo
+            DefaultTableModel modelo = new DefaultTableModel();
+            modelo.addColumn("Número de claves");
+            modelo.addColumn("Tamaño de las claves");
+            modelo.addColumn("Promedio de Instrucciones BS");
+            modelo.addColumn("Promedio de Instrucciones MS");
+            modelo.addColumn("Promedio de Tiempo BS");
+            modelo.addColumn("Promedio de Tiempo MS");
 
-            BigInteger vec2[] = new BigInteger[numberKeys];
+            for (int w = 100; w < numberMaxKeys; w+=Integer.parseInt(jTextField3.getText())) {
+            BigInteger vec2[] = new BigInteger[w];
             BigInteger vec3[] = new BigInteger[vec2.length];
 
             for (int i = 0; i < vec2.length; i++) {
@@ -190,19 +188,22 @@ public class Principal extends javax.swing.JFrame {
             endTimeMS = System.currentTimeMillis();
             timeMS = endTimeBS - startTimeBS;
 
-            //Modelo
-            DefaultTableModel modelo = new DefaultTableModel();
-            modelo.addColumn("Número de claves");
-            modelo.addColumn("Tamaño de las claves");
-            modelo.addColumn("Promedio de Instrucciones BS");
-            modelo.addColumn("Promedio de Instrucciones MS");
-            modelo.addColumn("Promedio de Tiempo BS");
-            modelo.addColumn("Promedio de Tiempo MS");
+           
 
-            String[] a = {String.valueOf(numberKeys), String.valueOf(keysSize), String.valueOf(bu.getContadorInstrucciones()), String.valueOf(me.getContadorInstrucciones()), String.valueOf(timeBS), String.valueOf(timeMS)};
+            String[] a = new String[6];
+            a[0]=String.valueOf(w);
+            a[1]=String.valueOf(keysSize);
+            a[2]=String.valueOf(bu.getContadorInstrucciones());
+            a[3]=String.valueOf(me.getContadorInstrucciones());
+            a[4]=String.valueOf(timeBS);
+            a[5]=String.valueOf(timeMS);
+                    
             modelo.addRow(a);
-            jTable1.setModel(modelo);
+             jTable1.setModel(modelo);
 
+            }
+           
+           
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Debe ingresar número enteros");
         }
@@ -210,11 +211,15 @@ public class Principal extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
-     public static void guardarArchivo(File archivo, String[] vec) throws IOException {
+    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField3ActionPerformed
+
+    public static void guardarArchivo(File archivo, String[] vec) throws IOException {
         BufferedWriter bw;
 
         bw = new BufferedWriter(new FileWriter(archivo));
-        
+
         for (int i = 0; i < vec.length; i++) {
             if (archivo.exists()) {
                 bw.write(vec[i]);
@@ -227,45 +232,6 @@ public class Principal extends javax.swing.JFrame {
         bw.close();
 
     }
-     
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-        int keysSize = Integer.parseInt(jTextField2.getText());
-        BubbleSort bu = new BubbleSort();
-        MergeSort me = new MergeSort();
-        String [] info = new String[6];
-        
-        //Modelo
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("Número de claves");
-        modelo.addColumn("Tamaño de las claves");
-        modelo.addColumn("Promedio de Instrucciones BS");
-        modelo.addColumn("Promedio de Instrucciones MS");
-        modelo.addColumn("Promedio de Tiempo BS");
-        modelo.addColumn("Promedio de Tiempo MS");
-
-        BigInteger vec2[] = new BigInteger[Integer.parseInt(jTextField4.getText())];
-        BigInteger vec3[] = new BigInteger[vec2.length];
-
-        for (int i = 0; i < vec2.length; i += Integer.parseInt(jTextField5.getText())) {
-            vec2[i] = vec3[i] = randomBig(keysSize);
-            System.out.println("Se generaron : "+i);
-            startTimeBS = System.currentTimeMillis();
-            bu.recursiveBubble(vec3);
-            endTimeBS = System.currentTimeMillis();
-            timeBS = endTimeBS - startTimeBS;
-
-            startTimeMS = System.currentTimeMillis();
-            me.sort(vec2, 0, vec2.length - 1);
-            endTimeMS = System.currentTimeMillis();
-            timeMS = endTimeBS - startTimeBS;
-            System.out.println("Se organizaron");
-
-        }
-
-        
-
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -284,39 +250,36 @@ public class Principal extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Vistas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Vistas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Vistas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Vistas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Principal().setVisible(true);
+                new Vistas().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     // End of variables declaration//GEN-END:variables
 }
