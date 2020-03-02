@@ -19,14 +19,14 @@ public class MergeSort {
         this.contadorInstrucciones = 0;
     }
 
-     /**
+    /**
      *
      * @param arr Vector que será particionado
      * @param l Inicial
      * @param m Punto medio
      * @param r Final
      */
-    public  void merge(BigInteger arr[], int l, int m, int r) {
+    public void rMerge(BigInteger arr[], int l, int m, int r) {
         // Find sizes of two subarrays to be merged 
 
         int n1 = m - l + 1;
@@ -50,11 +50,11 @@ public class MergeSort {
         while (i < n1 && j < n2) {
             contadorInstrucciones++;
             if (leftArray[i].compareTo(rightArray[j]) == -1) {
-                contadorInstrucciones+=2;
+                contadorInstrucciones += 2;
                 arr[k] = leftArray[i];
                 i++;
             } else {
-                contadorInstrucciones+=2;
+                contadorInstrucciones += 2;
                 arr[k] = rightArray[j];
                 j++;
             }
@@ -62,14 +62,14 @@ public class MergeSort {
         }
         /* Copy remaining elements of L[] if any */
         while (i < n1) {
-            contadorInstrucciones+=3;
+            contadorInstrucciones += 3;
             arr[k] = leftArray[i];
             i++;
             k++;
         }
         /* Copy remaining elements of R[] if any */
         while (j < n2) {
-            contadorInstrucciones+=3;
+            contadorInstrucciones += 3;
             arr[k] = rightArray[j];
             j++;
             k++;
@@ -92,7 +92,7 @@ public class MergeSort {
             sort(arr, l, m);
             sort(arr, m + 1, r);
             // Merge the sorted halves 
-            merge(arr, l, m, r);
+            rMerge(arr, l, m, r);
         }
 
     }
@@ -100,7 +100,100 @@ public class MergeSort {
     public long getContadorInstrucciones() {
         return contadorInstrucciones;
     }
-    
-    
+
+    /* Iterative mergesort function to sor 
+	t arr[0...n-1] */
+    public void iterativeMergeSort(BigInteger arr[], int n) {
+
+        // For current size of subarrays to 
+        // be merged curr_size varies from 
+        // 1 to n/2 
+        int curr_size;
+
+        // For picking starting index of 
+        // left subarray to be merged 
+        int left_start;
+
+        // Merge subarrays in bottom up 
+        // manner. First rMerge subarrays 
+        // of size 1 to create sorted 
+        // subarrays of size 2, then rMerge 
+        // subarrays of size 2 to create 
+        // sorted subarrays of size 4, and 
+        // so on. 
+        for (curr_size = 1; curr_size <= n - 1;
+                curr_size = 2 * curr_size) {
+
+            // Pick starting point of different 
+            // subarrays of current size 
+            for (left_start = 0; left_start < n - 1;
+                    left_start += 2 * curr_size) {
+                // Find ending point of left 
+                // subarray. mid+1 is starting 
+                // point of right 
+                int mid = Math.min(left_start + curr_size - 1, n - 1);
+
+                int right_end = Math.min(left_start
+                        + 2 * curr_size - 1, n - 1);
+
+                // Merge Subarrays arr[left_start...mid] 
+                // & arr[mid+1...right_end] 
+                rMerge(arr, left_start, mid, right_end);
+            }
+        }
+    }
+
+    /* Function to rMerge the two haves arr[l..m] and 
+	arr[m+1..r] of array arr[] */
+    public static void merge(BigInteger arr[], int l, int m, int r) {
+        int i, j, k;
+        int n1 = m - l + 1;
+        int n2 = r - m;
+
+        /* create temp arrays */
+        BigInteger L[] = new BigInteger[n1];
+        BigInteger R[] = new BigInteger[n2];
+
+        /* Copy data to temp arrays L[] 
+		and R[] */
+        for (i = 0; i < n1; i++) {
+            L[i] = arr[l + i];
+        }
+        for (j = 0; j < n2; j++) {
+            R[j] = arr[m + 1 + j];
+        }
+
+        /* Merge the temp arrays back into 
+		arr[l..r]*/
+        i = 0;
+        j = 0;
+        k = l;
+        while (i < n1 && j < n2) {
+            if (L[i].compareTo(R[j]) == -1 || L[i].compareTo(R[j]) == 0) {
+                arr[k] = L[i];
+                i++;
+            } else {
+                arr[k] = R[j];
+                j++;
+            }
+            k++;
+        }
+
+        /* Copy the remaining elements of 
+		L[], if there are any */
+        while (i < n1) {
+            arr[k] = L[i];
+            i++;
+            k++;
+        }
+
+        /* Copy the remaining elements of 
+		R[], if there are any */
+        while (j < n2) {
+            arr[k] = R[j];
+            j++;
+            k++;
+        }
+    }
 
 }

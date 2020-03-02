@@ -156,7 +156,7 @@ public class Vistas extends javax.swing.JFrame {
     }
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        try {
+//        try {
             int numberMaxKeys = Integer.parseInt(jTextField1.getText());
             int keysSize = Integer.parseInt(jTextField2.getText());
             BubbleSort bu = new BubbleSort();
@@ -178,14 +178,14 @@ public class Vistas extends javax.swing.JFrame {
                 vec2[i] = vec3[i] = randomBig(keysSize);
 
             }
-            startTimeBS = System.currentTimeMillis();
-            bu.recursiveBubble(vec3);
-            endTimeBS = System.currentTimeMillis();
+            startTimeBS = System.nanoTime();
+            bu.iterativeBubbleSort(vec3);
+            endTimeBS = System.nanoTime();
             timeBS = endTimeBS - startTimeBS;
 
-            startTimeMS = System.currentTimeMillis();
-            me.sort(vec2, 0, vec2.length - 1);
-            endTimeMS = System.currentTimeMillis();
+            startTimeMS = System.nanoTime();
+            me.iterativeMergeSort(vec2,vec2.length);
+            endTimeMS = System.nanoTime();
             timeMS = endTimeBS - startTimeBS;
 
            
@@ -204,9 +204,9 @@ public class Vistas extends javax.swing.JFrame {
             }
            
            
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Debe ingresar número enteros");
-        }
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(null, "Debe ingresar número enteros");
+//        }
 
 
     }//GEN-LAST:event_jButton2ActionPerformed

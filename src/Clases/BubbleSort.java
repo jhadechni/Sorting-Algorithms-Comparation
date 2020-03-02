@@ -45,10 +45,13 @@ public class BubbleSort {
        
     }
 
-    public BigInteger[] noRecursiveSort(BigInteger[] vec) {
+    public BigInteger[] iterativeBubbleSort(BigInteger[] vec) {
 
+        contadorInstrucciones++;
         for (int i = 0; i < vec.length - 1; i++) {
+            contadorInstrucciones++;
             for (int j = 0; j < vec.length - i - 1; j++) {
+                contadorInstrucciones+=4;
                 if (vec[j].compareTo(vec[j + 1]) == 1) {
                     BigInteger temp = vec[j];
                     vec[j] = vec[j + 1];
@@ -57,6 +60,7 @@ public class BubbleSort {
             }
         }
 
+        contadorInstrucciones++;
         return vec;
     }
 
