@@ -27,26 +27,23 @@ public class MergeSort {
      * @param r Final
      */
     public void rMerge(BigInteger arr[], int l, int m, int r) {
-        // Find sizes of two subarrays to be merged 
-
         int n1 = m - l + 1;
         int n2 = r - m;
         contadorInstrucciones += 6 + n1 + n2;
-        /* Create temp arrays */
         BigInteger leftArray[] = new BigInteger[n1];
         BigInteger rightArray[] = new BigInteger[n2];
-        /*Copy data to temp arrays*/
+        
         for (int i = 0; i < n1; ++i) {
             leftArray[i] = arr[l + i];
         }
+        
         for (int j = 0; j < n2; ++j) {
             rightArray[j] = arr[m + 1 + j];
         }
-        /* Merge the temp arrays */
-        // Initial indexes of first and second subarrays 
+        
         int i = 0, j = 0;
-        // Initial index of merged subarry array 
         int k = l;
+        
         while (i < n1 && j < n2) {
             contadorInstrucciones++;
             if (leftArray[i].compareTo(rightArray[j]) == -1) {
@@ -60,17 +57,17 @@ public class MergeSort {
             }
             k++;
         }
-        /* Copy remaining elements of L[] if any */
+        
         while (i < n1) {
             contadorInstrucciones += 3;
             arr[k] = leftArray[i];
             i++;
             k++;
         }
-        /* Copy remaining elements of R[] if any */
+        
         while (j < n2) {
             contadorInstrucciones += 3;
-            arr[k] = rightArray[j];
+            arr[k] = rightArray[j]; 
             j++;
             k++;
         }
@@ -101,50 +98,21 @@ public class MergeSort {
         return contadorInstrucciones;
     }
 
-    /* Iterative mergesort function to sor 
-	t arr[0...n-1] */
+   
+    
     public void iterativeMergeSort(BigInteger arr[], int n) {
 
-        // For current size of subarrays to 
-        // be merged curr_size varies from 
-        // 1 to n/2 
-        int curr_size;
-
-        // For picking starting index of 
-        // left subarray to be merged 
-        int left_start;
-
-        // Merge subarrays in bottom up 
-        // manner. First rMerge subarrays 
-        // of size 1 to create sorted 
-        // subarrays of size 2, then rMerge 
-        // subarrays of size 2 to create 
-        // sorted subarrays of size 4, and 
-        // so on. 
-        for (curr_size = 1; curr_size <= n - 1;
-                curr_size = 2 * curr_size) {
-
-            // Pick starting point of different 
-            // subarrays of current size 
-            for (left_start = 0; left_start < n - 1;
-                    left_start += 2 * curr_size) {
-                // Find ending point of left 
-                // subarray. mid+1 is starting 
-                // point of right 
-                int mid = Math.min(left_start + curr_size - 1, n - 1);
-
-                int right_end = Math.min(left_start
-                        + 2 * curr_size - 1, n - 1);
-
-                // Merge Subarrays arr[left_start...mid] 
-                // & arr[mid+1...right_end] 
-                rMerge(arr, left_start, mid, right_end);
+        for (int i = 1; i <= n - 1; i = 2 * i) {
+            for (int j = 0; j < n - 1; j += 2 * i) {
+                int mid = Math.min(j + i - 1, n - 1);
+                int right_end = Math.min(j + 2 * i - 1, n - 1);
+                rMerge(arr, j, mid, right_end);
             }
         }
     }
 
-    /* Function to rMerge the two haves arr[l..m] and 
-	arr[m+1..r] of array arr[] */
+    
+    
     public static void merge(BigInteger arr[], int l, int m, int r) {
         int i, j, k;
         int n1 = m - l + 1;

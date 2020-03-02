@@ -6,6 +6,7 @@
 package Vistas;
 
 import Clases.BubbleSort;
+import Clases.Generar;
 import Clases.MergeSort;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -17,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import jxl.write.WriteException;
 
 /**
  *
@@ -151,10 +153,10 @@ public class Vistas extends javax.swing.JFrame {
 
     }
 
-    public void mostrar() {
 
-    }
+    public static Generar g= new Generar();
 
+    int z=0;
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 //        try {
             int numberMaxKeys = Integer.parseInt(jTextField1.getText());
@@ -173,6 +175,7 @@ public class Vistas extends javax.swing.JFrame {
             for (int w = 100; w < numberMaxKeys; w+=Integer.parseInt(jTextField3.getText())) {
             BigInteger vec2[] = new BigInteger[w];
             BigInteger vec3[] = new BigInteger[vec2.length];
+            z++;
 
             for (int i = 0; i < vec2.length; i++) {
                 vec2[i] = vec3[i] = randomBig(keysSize);
@@ -191,17 +194,23 @@ public class Vistas extends javax.swing.JFrame {
            
 
             String[] a = new String[6];
+//            String[][] w = new String[][6];
             a[0]=String.valueOf(w);
             a[1]=String.valueOf(keysSize);
             a[2]=String.valueOf(bu.getContadorInstrucciones());
             a[3]=String.valueOf(me.getContadorInstrucciones());
             a[4]=String.valueOf(timeBS);
             a[5]=String.valueOf(timeMS);
-                    
+//                for (int i = z; i < z; i++) {
+//                    for (int j = 0; j < 6; j++) {
+//                        
+//                    }
+//                }
             modelo.addRow(a);
              jTable1.setModel(modelo);
 
             }
+            z=0;
            
            
 //        } catch (Exception e) {
