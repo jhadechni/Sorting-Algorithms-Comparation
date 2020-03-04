@@ -8,12 +8,15 @@ package Clases;
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import jxl.Workbook;
 import jxl.WorkbookSettings;
 import jxl.write.WritableCellFormat;
 import jxl.write.WritableFont;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
+import jxl.write.WriteException;
 
 /**
  *
@@ -21,7 +24,7 @@ import jxl.write.WritableWorkbook;
  */
 public class Generar {
     
-   public  void generarExcel(String [] entrada, String ruta) throws IOException{
+   public  void generarExcel(String [][] entrada, String ruta) throws IOException, WriteException{
         
        WorkbookSettings conf = new WorkbookSettings();
        conf.setEncoding("ISO-8859-1");
@@ -31,12 +34,18 @@ public class Generar {
        WritableFont h= new WritableFont(WritableFont.COURIER, 16);
        WritableCellFormat hFormat= new WritableCellFormat(h);
        
-       for (int i = 0; i < 6; i++) {
-           for (int j = 0; j < 10; j++) {
-               
+       for (int i = 0; i < entrada.length; i++) {
+           for (int j = 0; j < entrada[i].length; j++) {
+               try { 
+                   sheet.addCell(new jxl.write.Label(j, i, entrada[i][j], hFormat));
+               } catch (WriteException ex) {
+                   Logger.getLogger(Generar.class.getName()).log(Level.SEVERE, null, ex);
+               }
            }
        }
-//       sheet.addCell(wc);
+       workbook.write();
+       workbook.close();
+//       
     } 
     
     

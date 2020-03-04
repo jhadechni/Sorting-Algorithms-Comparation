@@ -6,10 +6,13 @@
 package Vistas;
 
 import Clases.BubbleSort;
+import Clases.Generar;
 import Clases.MergeSort;
 import java.awt.Color;
 import java.awt.Desktop;
+import java.awt.Image;
 import java.awt.Panel;
+import java.awt.Toolkit;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -19,9 +22,17 @@ import java.math.BigInteger;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
+import jxl.write.WriteException;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  *
@@ -36,10 +47,34 @@ public class Vistas extends javax.swing.JFrame {
         initComponents();
         tabla();
         jButton4.setEnabled(false);
+        jTextField1.setEditable(false);
+        jButton1.setEnabled(false);
+        jButton5.setEnabled(false);
+        jButton3.setEnabled(false);
+
+        /**
+         * Image icon =
+         * Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Imagenes/jaime-page-001.jpg"));
+         * this.setIconImage(icon); Background ImageIcon imagen1 = new
+         * ImageIcon(getClass().getResource("/Images/jaime-page-001.jpg")); Icon
+         * fondo1 = new
+         * ImageIcon(imagen1.getImage().getScaledInstance(jLabel2.getWidth(),
+         * jLabel2.getHeight(), Image.SCALE_DEFAULT)); jLabel2.setIcon(fondo1);
+         *
+         * Boton1 ImageIcon imagen2 = new
+         * ImageIcon(getClass().getResource("/Images/boton1.png")); Icon fondo2
+         * = new
+         * ImageIcon(imagen2.getImage().getScaledInstance(jButton2.getWidth(),
+         * jButton2.getHeight(), Image.SCALE_DEFAULT));
+         * jButton2.setIcon(fondo2);
+         *
+         */
     }
     long startTimeBS, endTimeBS, timeBS, startTimeMS, endTimeMS, timeMS;
-    File infor = new File("src/Archivos/info.txt");
-    File BubbleSort = new File("src/Archivos/Bubble_Sort.csv");
+
+    public static Generar generarExcel = new Generar();
+
+    static String[][] mat = new String[32][8];
 
     void tabla() {
         DefaultTableModel modelo = new DefaultTableModel();
@@ -69,7 +104,8 @@ public class Vistas extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1320, 700));
@@ -82,7 +118,7 @@ public class Vistas extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 60, 90, 30));
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 50, 130, 30));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -107,13 +143,13 @@ public class Vistas extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 1230, 500));
 
-        jButton3.setText("GENERAR ARCHIVO EXCEL");
+        jButton3.setText("MOSTRAR ARCHIVO EXCEL");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 60, 210, 30));
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 50, 210, 30));
 
         jButton4.setText("MOSTRAR");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -121,7 +157,7 @@ public class Vistas extends javax.swing.JFrame {
                 jButton4ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 60, 190, 30));
+        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 50, 190, 30));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -130,8 +166,23 @@ public class Vistas extends javax.swing.JFrame {
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 0, 190, 40));
 
         jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 20, 60, 30));
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1310, 640));
+        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 10, 60, 30));
+
+        jButton1.setText("GRAFICO TIEMPO BS");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 20, 160, 30));
+
+        jButton5.setText("GRAFICO TIEMPO MS");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 60, 160, 30));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -148,17 +199,15 @@ public class Vistas extends javax.swing.JFrame {
 
     }
 
-    public void mostrar() {
-
-    }
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
         try {
 
             int cont = 0;
             BubbleSort bu = new BubbleSort();
             MergeSort me = new MergeSort();
-            
+
             //Modelo
             DefaultTableModel modelo = new DefaultTableModel();
             modelo.addColumn("Conjunto de datos");
@@ -174,14 +223,14 @@ public class Vistas extends javax.swing.JFrame {
                 cont++;
 
                 for (int z = 0; z < 3; z++) {
-                    jLabel1.setText( (z+1) + " / 3 completados. ");
+                    jLabel1.setText((z + 1) + " / 3 completados. ");
                     BigInteger vec2[] = new BigInteger[w];
                     BigInteger vec3[] = new BigInteger[vec2.length];
 
                     for (int i = 0; i < vec2.length; i++) {
                         vec2[i] = vec3[i] = randomBig(1000);
                     }
-                    
+
                     startTimeBS = System.nanoTime();
                     bu.recursiveBubble(vec3);
                     endTimeBS = System.nanoTime();
@@ -195,32 +244,41 @@ public class Vistas extends javax.swing.JFrame {
                     promedios[1] = promedios[1] + me.getContadorInstrucciones();
                     promedios[2] = promedios[2] + timeBS;
                     promedios[3] = promedios[3] + timeMS;
-                    guardarArchivo(new File("src/Archivos/Corrida+"+cont+".txt"),vec2, "CONJUNTO DE DATOS # "+ cont +" CON n= " + w);
+                    guardarArchivo(new File("src/Archivos/Corrida+" + cont + ".txt"), vec2, "CONJUNTO DE DATOS # " + cont + " CON n= " + w);
                 }
-         
+
                 String[] a = new String[7];
-                a[0] = String.valueOf(cont);
-                a[1] = String.valueOf(w);
-                a[2] = String.valueOf(1000);
-                a[3] = String.valueOf(promedios[0] / 3);
-                a[4] = String.valueOf(promedios[1] / 3);
-                a[5] = String.valueOf(promedios[2] / 3);
-                a[6] = String.valueOf(promedios[2] / 3);
+
+                a[0] = mat[cont][1] = String.valueOf(cont);
+                a[1] = mat[cont][2] = String.valueOf(w);
+                a[2] = mat[cont][3] = String.valueOf(1000);
+                a[3] = mat[cont][4] = String.valueOf(promedios[0] / 3);
+                a[4] = mat[cont][5] = String.valueOf(promedios[1] / 3);
+                a[5] = mat[cont][6] = String.valueOf(promedios[2] / 3);
+                a[6] = mat[cont][7] = String.valueOf(promedios[3] / 3);
 
                 System.out.println("Se generaron " + w + " claves");
                 System.out.println("Tamaño: " + 1000 + " Número promedio de Instrucciones BS: " + promedios[0] / 3);
                 System.out.println("Número promedio de Instrucciones MS: " + promedios[1] / 3);
-                System.out.println("Tiempos promedio BS y MS respectivamente: " + promedios[2] / 3 + " " + promedios[2] / 3);
+                System.out.println("Tiempos promedio BS y MS respectivamente: " + promedios[2] / 3 + " " + promedios[3] / 3);
                 System.out.println("\n");
                 modelo.addRow(a);
-                
+
                 jTable1.setModel(modelo);
                 jButton4.setEnabled(true);
+                jTextField1.setEditable(true);
+                jButton1.setEnabled(true);
+                jButton5.setEnabled(true);
+                jButton3.setEnabled(true);
 
             }
 
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Debe ingresar número enteros");
+            generarExcel.generarExcel(mat, "src/Archivos/Excel.xls");
+
+        } catch (IOException ex) {
+            Logger.getLogger(Vistas.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (WriteException ex) {
+            Logger.getLogger(Vistas.class.getName()).log(Level.SEVERE, null, ex);
         }
 
 
@@ -239,112 +297,140 @@ public class Vistas extends javax.swing.JFrame {
         }
     }
 
+    public static void generarBarras(int fila) {
+        try {
+            DefaultCategoryDataset ds = new DefaultCategoryDataset();
+
+            for (int i = 1; i < 31; i++) {
+                ds.addValue(Long.parseLong(mat[i][fila]), String.valueOf(i), String.valueOf(i));
+            }
+
+            JFreeChart jf = ChartFactory.createBarChart3D("TIEMPO DE CORRIDA BUBBLE SORT", "TIEMPOS ", "VALOR ", ds, PlotOrientation.VERTICAL, true, true, true);
+            ChartFrame f = new ChartFrame("GRAFICO DE TIEMPO", jf);
+            f.setSize(1000, 600);
+            f.setLocationRelativeTo(null);
+            f.setVisible(true);
+
+        } catch (Exception e) {
+        }
+    }
+
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
 
         if (Integer.parseInt(jTextField1.getText()) > 0 && Integer.parseInt(jTextField1.getText()) < 31) {
             if ("1".equals(jTextField1.getText())) {
-            abrirarchivo("src/Archivos/Corrida+1.txt");
-       }
-        if ("2".equals(jTextField1.getText())) {
-            abrirarchivo("src/Archivos/Corrida+2.txt");
+                abrirarchivo("src/Archivos/Corrida+1.txt");
+            }
+            if ("2".equals(jTextField1.getText())) {
+                abrirarchivo("src/Archivos/Corrida+2.txt");
+            }
+            if ("3".equals(jTextField1.getText())) {
+                abrirarchivo("src/Archivos/Corrida+3.txt");
+            }
+            if ("4".equals(jTextField1.getText())) {
+                abrirarchivo("src/Archivos/Corrida+4.txt");
+            }
+            if ("5".equals(jTextField1.getText())) {
+                abrirarchivo("src/Archivos/Corrida+5.txt");
+            }
+            if ("6".equals(jTextField1.getText())) {
+                abrirarchivo("src/Archivos/Corrida+6.txt");
+            }
+            if ("7".equals(jTextField1.getText())) {
+                abrirarchivo("src/Archivos/Corrida+7.txt");
+            }
+            if ("8".equals(jTextField1.getText())) {
+                abrirarchivo("src/Archivos/Corrida+8.txt");
+            }
+            if ("9".equals(jTextField1.getText())) {
+                abrirarchivo("src/Archivos/Corrida+9.txt");
+            }
+            if ("10".equals(jTextField1.getText())) {
+                abrirarchivo("src/Archivos/Corrida+10.txt");
+            }
+            if ("11".equals(jTextField1.getText())) {
+                abrirarchivo("src/Archivos/Corrida+11.txt");
+            }
+            if ("12".equals(jTextField1.getText())) {
+                abrirarchivo("src/Archivos/Corrida+12.txt");
+            }
+            if ("12".equals(jTextField1.getText())) {
+                abrirarchivo("src/Archivos/Corrida+13.txt");
+            }
+            if ("14".equals(jTextField1.getText())) {
+                abrirarchivo("src/Archivos/Corrida+14.txt");
+            }
+            if ("15".equals(jTextField1.getText())) {
+                abrirarchivo("src/Archivos/Corrida+15.txt");
+            }
+            if ("16".equals(jTextField1.getText())) {
+                abrirarchivo("src/Archivos/Corrida+16.txt");
+            }
+            if ("17".equals(jTextField1.getText())) {
+                abrirarchivo("src/Archivos/Corrida+17.txt");
+            }
+            if ("18".equals(jTextField1.getText())) {
+                abrirarchivo("src/Archivos/Corrida+18.txt");
+            }
+            if ("19".equals(jTextField1.getText())) {
+                abrirarchivo("src/Archivos/Corrida+19.txt");
+            }
+            if ("20".equals(jTextField1.getText())) {
+                abrirarchivo("src/Archivos/Corrida+20.txt");
+            }
+            if ("21".equals(jTextField1.getText())) {
+                abrirarchivo("src/Archivos/Corrida+21.txt");
+            }
+            if ("22".equals(jTextField1.getText())) {
+                abrirarchivo("src/Archivos/Corrida+22.txt");
+            }
+            if ("23".equals(jTextField1.getText())) {
+                abrirarchivo("src/Archivos/Corrida+23.txt");
+            }
+            if ("24".equals(jTextField1.getText())) {
+                abrirarchivo("src/Archivos/Corrida+24.txt");
+            }
+            if ("25".equals(jTextField1.getText())) {
+                abrirarchivo("src/Archivos/Corrida+25.txt");
+            }
+            if ("26".equals(jTextField1.getText())) {
+                abrirarchivo("src/Archivos/Corrida+26.txt");
+            }
+            if ("27".equals(jTextField1.getText())) {
+                abrirarchivo("src/Archivos/Corrida+27.txt");
+            }
+            if ("28".equals(jTextField1.getText())) {
+                abrirarchivo("src/Archivos/Corrida+28.txt");
+            }
+            if ("29".equals(jTextField1.getText())) {
+                abrirarchivo("src/Archivos/Corrida+29.txt");
+            }
+            if ("30".equals(jTextField1.getText())) {
+                abrirarchivo("src/Archivos/Corrida+30.txt");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe ingresar un número entre 1 y 30", "ERROR!", 0);
         }
-        if ("3".equals(jTextField1.getText())) {
-            abrirarchivo("src/Archivos/Corrida+3.txt");
-        }
-        if ("4".equals(jTextField1.getText())) {
-            abrirarchivo("src/Archivos/Corrida+4.txt");
-        }
-        if ("5".equals(jTextField1.getText())) {
-            abrirarchivo("src/Archivos/Corrida+5.txt");
-        }
-        if ("6".equals(jTextField1.getText())) {
-            abrirarchivo("src/Archivos/Corrida+6.txt");
-        }
-        if ("7".equals(jTextField1.getText())) {
-            abrirarchivo("src/Archivos/Corrida+7.txt");
-        }
-        if ("8".equals(jTextField1.getText())) {
-            abrirarchivo("src/Archivos/Corrida+8.txt");
-        }
-        if ("9".equals(jTextField1.getText())) {
-            abrirarchivo("src/Archivos/Corrida+9.txt");
-        }
-        if ("10".equals(jTextField1.getText())) {
-            abrirarchivo("src/Archivos/Corrida+10.txt");
-        }
-        if ("11".equals(jTextField1.getText())) {
-            abrirarchivo("src/Archivos/Corrida+11.txt");
-        }
-        if ("12".equals(jTextField1.getText())) {
-            abrirarchivo("src/Archivos/Corrida+12.txt");
-        }
-        if ("12".equals(jTextField1.getText())) {
-            abrirarchivo("src/Archivos/Corrida+13.txt");
-        }
-        if ("14".equals(jTextField1.getText())) {
-            abrirarchivo("src/Archivos/Corrida+14.txt");
-        }
-        if ("15".equals(jTextField1.getText())) {
-            abrirarchivo("src/Archivos/Corrida+15.txt");
-        }
-        if ("16".equals(jTextField1.getText())) {
-            abrirarchivo("src/Archivos/Corrida+16.txt");
-        }
-        if ("17".equals(jTextField1.getText())) {
-            abrirarchivo("src/Archivos/Corrida+17.txt");
-        }
-        if ("18".equals(jTextField1.getText())) {
-            abrirarchivo("src/Archivos/Corrida+18.txt");
-        }
-        if ("19".equals(jTextField1.getText())) {
-            abrirarchivo("src/Archivos/Corrida+19.txt");
-        }
-        if ("20".equals(jTextField1.getText())) {
-            abrirarchivo("src/Archivos/Corrida+20.txt");
-        }
-        if ("21".equals(jTextField1.getText())) {
-             abrirarchivo("src/Archivos/Corrida+21.txt");
-        }
-        if ("22".equals(jTextField1.getText())) {
-             abrirarchivo("src/Archivos/Corrida+22.txt");
-        }
-        if ("23".equals(jTextField1.getText())) {
-             abrirarchivo("src/Archivos/Corrida+23.txt");
-        }
-        if ("24".equals(jTextField1.getText())) {
-             abrirarchivo("src/Archivos/Corrida+24.txt");
-        }
-        if ("25".equals(jTextField1.getText())) {
-             abrirarchivo("src/Archivos/Corrida+25.txt");
-        }
-        if ("26".equals(jTextField1.getText())) {
-             abrirarchivo("src/Archivos/Corrida+26.txt");
-        }
-        if ("27".equals(jTextField1.getText())) {
-             abrirarchivo("src/Archivos/Corrida+27.txt");
-        }
-        if ("28".equals(jTextField1.getText())) {
-             abrirarchivo("src/Archivos/Corrida+28.txt");
-        }
-        if ("29".equals(jTextField1.getText())) {
-             abrirarchivo("src/Archivos/Corrida+29.txt");
-        }
-        if ("30".equals(jTextField1.getText())) {
-             abrirarchivo("src/Archivos/Corrida+30.txt");
-        }
-        }else{
-            JOptionPane.showMessageDialog(null, "Debe ingresar un número entre 1 y 30", "ERROR!",0);
-        }
-       
+        jTextField1.setText("");
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-     
-
+        abrirarchivo("src/Archivos/Excel.xls");
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        generarBarras(6);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        generarBarras(7);
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      *
@@ -413,11 +499,12 @@ public class Vistas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
